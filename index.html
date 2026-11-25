@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>The Wedding of Marco & Sevia</title>
+<meta name="description" content="Undangan Pemberkatan Pernikahan Marco Alexander Malajai & Anak Agung Putri Sepviani — Minggu, 29 November 2026, GBI Menara Doa.">
+<meta name="theme-color" content="#3d060f">
+
+<!-- =========================================================
+     PREVIEW SAAT LINK DIBAGIKAN (WhatsApp, Facebook, Telegram, dll)
+     Alamat website sudah diisi di 3 baris bertanda ★. Jika alamat berubah,
+     ganti ketiganya dengan alamat baru (harus diawali https://
+     dan diakhiri garis miring /). Gambar preview: share.jpg
+     ========================================================= -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Undangan Marco & Sevia">
+<meta property="og:title" content="The Wedding of Marco & Sevia — 29 November 2026">
+<meta property="og:description" content="Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada pemberkatan pernikahan kami.">
+<meta property="og:url" content="https://websitesaya.github.io/Undangan_Marco_Putri/"><!-- ★ -->
+<meta property="og:image" content="https://websitesaya.github.io/Undangan_Marco_Putri/share.jpg"><!-- ★ -->
+<meta property="og:image:secure_url" content="https://websitesaya.github.io/Undangan_Marco_Putri/share.jpg"><!-- ★ -->
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Foto Marco & Sevia — The Wedding of Marco & Sevia">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Wedding of Marco & Sevia — 29 November 2026"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233d060f'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' font-style='italic' text-anchor='middle' fill='%23f0d98c'%3EM%26amp;P%3C/text%3E%3C/svg%3E">
+
+<!-- Foto sampul dimuat paling awal supaya opening screen langsung tampil -->
+<link rel="preload" as="image" href="Latar.jpg" fetchpriority="high">
+
+<!-- Fonts (hanya ketebalan yang dipakai → lebih ringan) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Alex+Brush&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ SNOW / FLORAL FALL CANVAS ============ -->
+<canvas id="snowCanvas"></canvas>
+
+<!-- ============ AUDIO PLAYER ============ -->
+<audio id="bgMusic" loop preload="none">
+  <source src="I Choose You Ryann Darling.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle" class="music-toggle" aria-label="Putar musik">
+  <i class="fa-solid fa-compact-disc"></i>
+</button>
+
+<!-- ============ COVER / OPENING SCREEN ============ -->
+<section id="cover" class="cover">
+  <div class="cover-bg">
+    <img src="Latar.jpg" alt="Marco & Sevia" class="cover-photo" id="coverPhoto" fetchpriority="high" decoding="async">
+    <div class="cover-shade"></div>
+  </div>
+
+  <div class="cover-frame">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+  </div>
+
+  <div class="cover-content">
+    <p class="cover-eyebrow fade-in-up d1">The Wedding Of</p>
+    <h1 class="cover-names fade-in-up d2">Marco <span class="amp">&amp;</span> Sevia</h1>
+    <div class="cover-divider fade-in-up d3"><span></span><i class="fa-solid fa-gem"></i><span></span></div>
+    <p class="cover-date fade-in-up d4">29 . 11 . 2026</p>
+
+    <div class="cover-guest fade-in-up d5">
+      <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+      <h3 id="guestName">Tamu Undangan</h3>
+    </div>
+
+    <button id="openBtn" class="open-btn fade-in-up d6">
+      <i class="fa-solid fa-envelope-open-text"></i>
+      <span>Buka Undangan</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ CURTAIN OVERLAY ============ -->
+<div id="curtain" class="curtain">
+  <div class="curtain-panel left">
+    <div class="curtain-fold"></div>
+    <div class="curtain-tassel"></div>
+  </div>
+  <div class="curtain-panel right">
+    <div class="curtain-fold"></div>
+    <div class="curtain-tassel"></div>
+  </div>
+  <div class="curtain-emblem"><i class="fa-solid fa-gem"></i></div>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<main id="mainContent" class="main-content">
+
+  <!-- ===== HERO / PEMBUKA ===== -->
+  <section class="section hero-section" data-theme="black" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <div class="ornament-top"><i class="fa-solid fa-gem"></i></div>
+    <p class="arabic-text"><i class="fa-solid fa-cross"></i></p>
+    <p class="hero-quote">
+      "Dua orang lebih baik daripada satu orang, karena mereka menerima upah
+      yang baik dalam jerih payah mereka. Tali yang tiga lembar tak mudah putus."
+    </p>
+    <p class="hero-source">Pengkhotbah 4 : 9, 12</p>
+    <div class="hero-invite">
+      <p>Dengan penuh syukur kepada Tuhan Yesus Kristus, kami bermaksud menyelenggarakan
+      pemberkatan pernikahan putra putri kami, dan mengundang Bapak/Ibu/Saudara/i untuk
+      hadir memberikan doa restu.</p>
+    </div>
+  </section>
+
+  <!-- ===== MEMPELAI ===== -->
+  <section class="section couple-section" data-theme="maroon" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <p class="section-eyebrow">Kedua Mempelai</p>
+    <h2 class="section-title">Mempelai</h2>
+    <div class="gold-divider"></div>
+
+    <div class="couple-wrap">
+      <div class="couple-card" data-reveal>
+        <div class="couple-photo-frame">
+          <img src="Mempelai_Pria.jpg" alt="Marco Alexander Malajai" loading="lazy">
+        </div>
+        <h3 class="couple-name">Marco Alexander Malajai, S.Ak</h3>
+        <p class="couple-role">Anak Tunggal</p>
+        <div class="couple-info">
+          <p><i class="fa-solid fa-cross"></i> Kristen</p>
+          <p><i class="fa-solid fa-person"></i> Ayahanda : Leksi Malajai</p>
+          <p><i class="fa-solid fa-person-dress"></i> Ibunda : Christina Sigar</p>
+          <p><i class="fa-brands fa-instagram"></i> <a href="https://instagram.com/mrcsilv__" target="_blank" rel="noopener">@mrcsilv__</a></p>
+        </div>
+      </div>
+
+      <div class="couple-amp"><i class="fa-solid fa-heart"></i></div>
+
+      <div class="couple-card" data-reveal>
+        <div class="couple-photo-frame">
+          <img src="Mempelai_Wanita.jpg" alt="Anak Agung Putri Sepviani" loading="lazy">
+        </div>
+        <h3 class="couple-name">Anak Agung Putri Sepviani</h3>
+        <p class="couple-role">Anak Pertama dari 2 bersaudara</p>
+        <div class="couple-info">
+          <p><i class="fa-solid fa-cross"></i> Kristen</p>
+          <p><i class="fa-solid fa-person"></i> Ayahanda : A.A. Oka Ardhana</p>
+          <p><i class="fa-solid fa-person-dress"></i> Ibunda : Marlen Anglin Oroh</p>
+          <p><i class="fa-brands fa-instagram"></i> <a href="https://instagram.com/putriseviaaa" target="_blank" rel="noopener">@putriseviaaa</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PHOTO QUOTE BAND ===== -->
+  <section class="photo-band" data-reveal>
+    <img src="Foto6.jpg" alt="Marco & Sevia" loading="lazy" decoding="async">
+    <div class="photo-band-shade"></div>
+    <div class="photo-band-text">
+      <p class="pb-quote">"Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."</p>
+      <p class="pb-source">Markus 10 : 9</p>
+    </div>
+  </section>
+
+  <!-- ===== ACARA / COUNTDOWN ===== -->
+  <section class="section event-section" data-theme="black" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <p class="section-eyebrow">Save The Date</p>
+    <h2 class="section-title">Pemberkatan &amp; Resepsi</h2>
+    <div class="gold-divider"></div>
+
+    <div class="countdown-wrap" data-reveal>
+      <p class="countdown-label">Menuju Hari Bahagia</p>
+      <div class="countdown" id="countdown">
+        <div class="cd-box"><span id="cdDays">00</span><small>Hari</small></div>
+        <div class="cd-box"><span id="cdHours">00</span><small>Jam</small></div>
+        <div class="cd-box"><span id="cdMinutes">00</span><small>Menit</small></div>
+        <div class="cd-box"><span id="cdSeconds">00</span><small>Detik</small></div>
+      </div>
+    </div>
+
+    <div class="event-cards">
+      <div class="event-card" data-reveal>
+        <i class="fa-solid fa-church event-icon"></i>
+        <h3>Pemberkatan</h3>
+        <p class="event-date">Minggu, 29 November 2026</p>
+        <p class="event-time">Pukul 08.00 - Selesai WITA</p>
+        <p class="event-place">GBI Menara Doa</p>
+        <p class="event-address">Mokdale, Kec. Lobalain,<br>Kab. Rote Ndao, Nusa Tenggara Timur</p>
+        <a href="https://maps.app.goo.gl/bq3TRa2nReLi1aCR9" target="_blank" rel="noopener" class="map-btn">
+          <i class="fa-solid fa-location-dot"></i> Buka Google Maps
+        </a>
+      </div>
+    </div>
+
+    <a class="calendar-btn" data-reveal target="_blank" rel="noopener"
+       href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pernikahan%20Marco%20%26%20Putri&amp;dates=20261129T000000Z/20261129T040000Z&amp;details=Pemberkatan%2008.00%20WITA%20%26%20Resepsi%2010.00%20WITA%20di%20GBI%20Menara%20Doa&amp;location=GBI%20Menara%20Doa%2C%20Mokdale%2C%20Lobalain%2C%20Rote%20Ndao">
+      <i class="fa-regular fa-calendar-plus"></i> Simpan ke Kalender
+    </a>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="section gallery-section" data-theme="maroon" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <p class="section-eyebrow">Our Moments</p>
+    <h2 class="section-title">Galeri Prewedding</h2>
+    <div class="gold-divider"></div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <p class="gallery-hint"><i class="fa-solid fa-hand-pointer"></i> Ketuk foto untuk memperbesar</p>
+  </section>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
+    <img src="" alt="" id="lightboxImg" decoding="async">
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
+    <p class="lightbox-counter" id="lightboxCounter">1 / 6</p>
+  </div>
+
+  <!-- ===== HADIAH / AMPLOP DIGITAL ===== -->
+  <section class="section gift-section" data-theme="white" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <p class="section-eyebrow">Wedding Gift</p>
+    <h2 class="section-title">Tanda Kasih</h2>
+    <div class="gold-divider"></div>
+    <p class="gift-note">
+      Doa restu Bapak/Ibu/Saudara/i merupakan karunia yang sangat berarti bagi kami.
+      Jika berkenan memberi tanda kasih, kami sediakan pilihan berikut tanpa mengurangi rasa hormat kami.
+    </p>
+
+    <div class="atm-wrap">
+      <div class="atm-card" data-reveal>
+        <div class="atm-shine"></div>
+        <div class="atm-top">
+          <span class="atm-bank">BRI</span>
+          <i class="fa-solid fa-wifi atm-wifi"></i>
+        </div>
+        <div class="atm-chip"><i class="fa-solid fa-microchip"></i></div>
+        <div class="atm-number">3618 - 0103 - 2038 - 532</div>
+        <div class="atm-bottom">
+          <div>
+            <p class="atm-label">Card Holder</p>
+            <p class="atm-name">Marco Alexander Malajai</p>
+          </div>
+          <i class="fa-brands fa-cc-mastercard atm-logo"></i>
+        </div>
+        <button class="copy-btn" data-copy="361801032038532" data-bank="BRI a.n Marco Alexander Malajai">
+          <i class="fa-regular fa-copy"></i> Salin Nomor Rekening
+        </button>
+      </div>
+
+      <div class="atm-card atm-gold" data-reveal>
+        <div class="atm-shine"></div>
+        <div class="atm-top">
+          <span class="atm-bank">BRI</span>
+          <i class="fa-solid fa-wifi atm-wifi"></i>
+        </div>
+        <div class="atm-chip"><i class="fa-solid fa-microchip"></i></div>
+        <div class="atm-number">3618 - 0109 - 1792 - 539</div>
+        <div class="atm-bottom">
+          <div>
+            <p class="atm-label">Card Holder</p>
+            <p class="atm-name">Anak Agung Putri Sepviani</p>
+          </div>
+          <i class="fa-brands fa-cc-visa atm-logo"></i>
+        </div>
+        <button class="copy-btn" data-copy="361801091792539" data-bank="BRI a.n Anak Agung Putri Sepviani">
+          <i class="fa-regular fa-copy"></i> Salin Nomor Rekening
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== UCAPAN & DOA ===== -->
+  <section class="section wishes-section" data-theme="black" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <p class="section-eyebrow">RSVP</p>
+    <h2 class="section-title">Ucapan &amp; Doa</h2>
+    <div class="gold-divider"></div>
+
+    <form class="wishes-form" id="wishesForm" data-reveal>
+      <input type="text" id="wishName" placeholder="Nama Anda" required maxlength="50">
+      <select id="wishStatus">
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+        <option value="Ragu-ragu">Ragu-ragu</option>
+      </select>
+      <textarea id="wishMessage" placeholder="Tulis ucapan dan doa terbaik untuk kedua mempelai..." required maxlength="300" rows="3"></textarea>
+      <button type="submit" id="wishSubmit">
+        <i class="fa-solid fa-paper-plane"></i> Kirim Ucapan
+      </button>
+    </form>
+
+    <div class="wishes-list" id="wishesList">
+      <p class="wishes-loading">Memuat ucapan...</p>
+    </div>
+  </section>
+
+  <!-- ===== PENUTUP ===== -->
+  <section class="section closing-section" data-theme="maroon" data-reveal>
+    <div class="section-frame"><span class="sec-corner tl"></span><span class="sec-corner tr"></span><span class="sec-corner bl"></span><span class="sec-corner br"></span></div>
+    <div class="ornament-top"><i class="fa-solid fa-gem"></i></div>
+    <h2 class="closing-title">Terima Kasih</h2>
+    <p class="closing-text">
+      Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
+      berkenan hadir dan memberikan doa restu kepada kami.
+    </p>
+    <p class="closing-signature">Kami yang berbahagia,</p>
+    <h3 class="closing-names">Marco &amp; Sevia</h3>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-emblem"><i class="fa-solid fa-gem"></i></div>
+    <p class="footer-credit">Design by <strong>Zhald_Design</strong></p>
+    <div class="footer-social">
+      <a href="https://instagram.com/rijald_elimanafe" target="_blank" rel="noopener" class="social-btn ig">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://tiktok.com/@Zhald_Design" target="_blank" rel="noopener" class="social-btn tt">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://wa.me/6281338596854" target="_blank" rel="noopener" class="social-btn wa">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2026 — Undangan Digital Marco &amp; Sevia</p>
+  </footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
