@@ -112,7 +112,7 @@
     <div class="gen-field">
       <label for="baseUrl">Alamat Website Undangan</label>
       <input type="text" id="baseUrl" placeholder="https://websitesaya.github.io/Wedding_Marco-Sevia/">
-      <small>Isi sekali sesuai alamat website undangan yang sudah online. Akan tersimpan otomatis di browser ini.</small>
+      <small>Terisi otomatis sesuai alamat halaman ini, jadi selalu ikut alamat terbaru di GitHub. Bisa diubah manual untuk satu sesi saja (tidak disimpan).</small>
     </div>
 
     <div class="gen-field">
@@ -159,27 +159,48 @@ const shareIG        = document.getElementById('shareIG');
 const copyLink       = document.getElementById('copyLink');
 const historyList    = document.getElementById('historyList');
 
-const STORAGE_BASEURL = 'undangan_base_url';
-const STORAGE_HISTORY = 'undangan_link_history';
-
-// Auto-isi base URL: pakai yang tersimpan, atau tebak dari lokasi file ini
-function guessBaseUrl(){
-  const saved = localStorage.getItem(STORAGE_BASEURL);
-  if (saved) return saved;
-  return window.location.href.replace('generator.html', 'index.html');
+// ---------------------------------------------------------
+// ALAMAT WEBSITE: SELALU DIHITUNG OTOMATIS DARI LOKASI HALAMAN INI.
+// Tidak lagi disimpan di localStorage. Alasannya: localStorage dibagi
+// untuk SEMUA repo di bawah websitesaya.github.io (satu "origin"), jadi
+// nilai dari repo lama (Undangan_Marco_Putri) ikut terbaca di repo baru.
+// ---------------------------------------------------------
+function autoBaseUrl(){
+  // Folder tempat generator.html berada -> https://.../Wedding_Marco-Sevia/
+  return new URL('./', window.location.href).href;
 }
-baseUrlInput.value = guessBaseUrl();
 
-baseUrlInput.addEventListener('change', () => {
-  localStorage.setItem(STORAGE_BASEURL, baseUrlInput.value.trim());
-});
+function normalizeBase(raw){
+  let b = (raw || '').trim();
+  if (!b) return '';
+  if (!/^https?:\/\//i.test(b)) b = 'https://' + b;
+  b = b.split('#')[0].split('?')[0];
+  if (!b.endsWith('/') && !/\.html?$/i.test(b)) b += '/';
+  return b;
+}
+
+// Bersihkan sisa nilai lama yang pernah tersimpan (dari versi generator sebelumnya)
+try { localStorage.removeItem('undangan_base_url'); } catch (e) {}
+
+baseUrlInput.value = autoBaseUrl();
+
+// Riwayat disimpan per-folder (kunci memuat path) supaya tidak tercampur repo lain.
+// Yang disimpan HANYA nama tamu; link dibuat ulang dari alamat terbaru saat dipakai.
+const STORAGE_HISTORY = 'undangan_history::' + window.location.pathname.replace(/[^/]*$/, '');
 
 function getHistory(){
-  try { return JSON.parse(localStorage.getItem(STORAGE_HISTORY)) || []; }
-  catch { return []; }
+  try {
+    const list = JSON.parse(localStorage.getItem(STORAGE_HISTORY));
+    return Array.isArray(list) ? list : [];
+  } catch { return []; }
 }
 function saveHistory(list){
-  localStorage.setItem(STORAGE_HISTORY, JSON.stringify(list));
+  try { localStorage.setItem(STORAGE_HISTORY, JSON.stringify(list)); } catch (e) {}
+}
+
+function buildLink(base, name){
+  const b = normalizeBase(base) || autoBaseUrl();
+  return `${b}${b.includes('?') ? '&' : '?'}to=${encodeURIComponent(name.replace(/\s+/g, '+'))}`;
 }
 
 function renderHistory(){
@@ -188,16 +209,18 @@ function renderHistory(){
     historyList.innerHTML = '<p class="empty-hist">Belum ada link yang dibuat.</p>';
     return;
   }
-  historyList.innerHTML = history.slice().reverse().map((h, idx) => `
+  historyList.innerHTML = history.slice().reverse().map(h => `
     <div class="hist-item">
       <span>${escapeHTML(h.name)}</span>
-      <button data-link="${encodeURIComponent(h.link)}" class="hist-copy" title="Salin link"><i class="fa-regular fa-copy"></i></button>
+      <button data-name="${encodeURIComponent(h.name)}" class="hist-copy" title="Salin link"><i class="fa-regular fa-copy"></i></button>
     </div>
   `).join('');
 
   document.querySelectorAll('.hist-copy').forEach(btn => {
     btn.addEventListener('click', () => {
-      const link = decodeURIComponent(btn.dataset.link);
+      const name = decodeURIComponent(btn.dataset.name);
+      // Selalu pakai alamat yang sedang aktif di kolom, bukan link lama
+      const link = buildLink(baseUrlInput.value, name);
       navigator.clipboard.writeText(link);
       btn.innerHTML = '<i class="fa-solid fa-check"></i>';
       setTimeout(() => btn.innerHTML = '<i class="fa-regular fa-copy"></i>', 1500);
@@ -218,9 +241,7 @@ generateBtn.addEventListener('click', () => {
   if (!base) { alert('Isi dulu alamat website undangan.'); return; }
   if (!name) { alert('Tulis dulu nama tamunya.'); return; }
 
-  localStorage.setItem(STORAGE_BASEURL, base);
-
-  const link = `${base}${base.includes('?') ? '&' : '?'}to=${encodeURIComponent(name.replace(/\s+/g, '+'))}`;
+  const link = buildLink(base, name);
 
   resultLink.textContent = link;
   resultBox.classList.add('show');
@@ -238,12 +259,10 @@ generateBtn.addEventListener('click', () => {
     });
   };
 
-  shareIG.addEventListener('click', () => {
-    navigator.clipboard.writeText(link);
-  });
+  shareIG.onclick = () => { navigator.clipboard.writeText(link); };
 
   const history = getHistory();
-  history.push({ name, link, time: new Date().toISOString() });
+  history.push({ name, time: new Date().toISOString() });
   saveHistory(history);
   renderHistory();
 
