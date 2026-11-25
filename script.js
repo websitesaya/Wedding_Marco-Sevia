@@ -12,7 +12,7 @@ const JSONBIN_BIN_ID   = "6b054db1ac6210605a9ff7d2";
 const JSONBIN_API_KEY  = "$2a$10$nou5c3yZntdxwBqnGEEOvuCkZpg9GT4CfSp1IXgNhJpKQzhxI8NYO";
 const JSONBIN_BASE_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-const TOTAL_PHOTOS = 14; // Foto1.jpg s/d Foto14.jpg
+const TOTAL_PHOTOS = 10; // Foto1.jpg s/d Foto10.jpg
 
 /* =========================================================
    1. NAMA TAMU DARI URL (?to=Nama)
