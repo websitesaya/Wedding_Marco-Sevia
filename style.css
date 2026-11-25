@@ -535,7 +535,7 @@ a{text-decoration:none;color:inherit;}
    ========================================================= */
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr); /* 2 foto bersampingan → 14 foto = 7 baris genap */
+  grid-template-columns:repeat(2,1fr); /* 2 foto bersampingan → 10 foto = 5 baris genap */
   gap:12px;
   max-width:640px;
   margin:20px auto 0;
